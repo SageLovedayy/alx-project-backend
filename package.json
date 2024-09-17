@@ -1,0 +1,21 @@
+{
+  "name": "mgfit-backend",
+  "version": "1.0.0",
+  "description": "backend for mgfit application",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "author": "Loveday Nnabuife",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.21.0",
+    "express-rate-limit": "^7.4.0",
+    "helmet": "^7.1.0",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
