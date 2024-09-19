@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
+
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -30,7 +31,7 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Please, confirm your password'],
     validate: {
       // This only works on CREATE nad SAVE
-      validator: function (el) {
+      validator: function(el) {
         return el === this.password;
       },
       message: 'Passwords are not the same',
@@ -39,7 +40,7 @@ const userSchema = new mongoose.Schema({
   passwordChangedAt: Date,
 });
 
-userSchema.pre('save', async function (next) {
+userSchema.pre('save', async function(next) {
   //Only run this function if password was actually modified
   if (!this.isModified('password')) return next();
   //hassh password with cost of 12
@@ -49,14 +50,14 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
-userSchema.methods.correctPassword = async function (
+userSchema.methods.correctPassword = async function(
   candidatePassword,
   userPassword,
 ) {
   return await bcrypt.compare(candidatePassword, userPassword);
 };
 
-userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
+userSchema.methods.changedPasswordAfter = function(JWTTimestamp) {
   if (this.passwordChangedAt) {
     const changedTimestamp = parseInt(
       this.passwordChangedAt.getTime() / 1000,
